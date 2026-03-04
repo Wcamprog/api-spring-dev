@@ -290,10 +290,3 @@ Si una sucursal no tiene productos, se devuelve la información de la sucursal c
 - Uso de Docker para infraestructura
 - Dominio desacoplado de frameworks
 
----
-
-# Consideraciones
-
-La aplicación está diseñada para ser completamente reactiva utilizando WebFlux.
-La persistencia se realiza en MongoDB mediante Reactive MongoDB.
-Los tests unitarios se enfocan en validar la lógica de negocio sin depender de infraestructura externa.

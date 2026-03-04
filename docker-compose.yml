@@ -1,0 +1,21 @@
+services:
+  api:
+    build: .
+    container_name: api-spring-dev
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATA_MONGODB_URI: ${SPRING_DATA_MONGODB_URI}
+
+  mongo:
+    image: mongo:7
+    container_name: mongo-api-spring-dev
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: franquicias
+    volumes:
+      - mongo_data:/data/db
+
+volumes:
+  mongo_data:

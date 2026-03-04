@@ -2,30 +2,21 @@ package com.wcamprog.apispringdev.application;
 
 import com.wcamprog.apispringdev.domain.Franquicia;
 import com.wcamprog.apispringdev.domain.NotFoundException;
-import com.wcamprog.apispringdev.domain.Sucursal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
 @Service
 @RequiredArgsConstructor
-public class AgregarSucursalUseCase {
+public class ActualizarNombreFranquiciaUseCase {
+
     private final FranquiciaRepositoryPort repository;
 
-    public Mono<Franquicia> ejecutar(String franquiciaId, String nombreSucursal) {
-
+    public Mono<Franquicia> ejecutar(String franquiciaId, String nuevoNombre) {
         return repository.findById(franquiciaId)
                 .switchIfEmpty(Mono.error(new NotFoundException("Franquicia no encontrada")))
                 .flatMap(franquicia -> {
-
-                    Sucursal nuevaSucursal = Sucursal.builder()
-                            .id(UUID.randomUUID().toString())
-                            .nombre(nombreSucursal)
-                            .build();
-
-                    franquicia.getSucursales().add(nuevaSucursal);
-
+                    franquicia.setNombre(nuevoNombre);
                     return repository.save(franquicia);
                 });
     }

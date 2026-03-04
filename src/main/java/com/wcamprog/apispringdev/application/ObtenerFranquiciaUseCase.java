@@ -1,22 +1,18 @@
 package com.wcamprog.apispringdev.application;
 
 import com.wcamprog.apispringdev.domain.Franquicia;
+import com.wcamprog.apispringdev.domain.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
-public class CrearFranquiciaUseCase {
+public class ObtenerFranquiciaUseCase {
     private final FranquiciaRepositoryPort repository;
 
-    public Mono<Franquicia> ejecutar(String nombre) {
-        Franquicia franquicia = Franquicia.builder()
-                .id(UUID.randomUUID().toString())
-                .nombre(nombre)
-                .build();
-        return repository.save(franquicia);
+    public Mono<Franquicia> ejecutar(String id) {
+        return repository.findById(id)
+                .switchIfEmpty(Mono.error(new NotFoundException("Franquicia no encontrada")));
     }
 }
